@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Multi-architecture build script for Flame with Import/Export functionality
+# Builds for AMD64, ARM64, and ARMv7 (Raspberry Pi compatible)
+# Usage: ./build-multiarch.sh [tag]
+
+set -e
+
+# Configuration
+IMAGE_NAME="flame-import-export"
+REGISTRY_NAME="kwslavens74"  # Change this to your Docker Hub username
+VERSION=$(node -p "require('./package.json').version")
+TAG=${1:-$VERSION}
+
+echo "🔥 Building Multi-Architecture Flame with Import/Export"
+echo "📦 Version: $VERSION"
+echo "🏷️  Tag: $TAG"
+echo "🏗️  Architectures: linux/amd64, linux/arm64, linux/arm/v7"
+echo ""
+
+# Setup buildx if not already done
+if ! docker buildx ls | grep -q multiarch-builder; then
+    echo "🔧 Setting up Docker buildx..."
+    docker buildx create --name multiarch-builder --use
+    docker buildx inspect --bootstrap
+fi
+
+# Build multi-architecture image
+echo "🔨 Building multi-architecture Docker image..."
+docker buildx build \
+  --platform linux/amd64,linux/arm64,linux/arm/v7 \
+  -t $REGISTRY_NAME/$IMAGE_NAME:$TAG \
+  -t $REGISTRY_NAME/$IMAGE_NAME:latest \
+  -t $REGISTRY_NAME/$IMAGE_NAME:multiarch-$TAG \
+  -f Dockerfile \
+  --push \
+  .
+
+echo ""
+echo "✅ Multi-architecture Docker image built and pushed successfully!"
+echo "🏷️  Available tags:"
+echo "   - $REGISTRY_NAME/$IMAGE_NAME:latest"
+echo "   - $REGISTRY_NAME/$IMAGE_NAME:$TAG"
+echo "   - $REGISTRY_NAME/$IMAGE_NAME:multiarch-$TAG"
+echo ""
+echo "🏗️  Supported architectures:"
+echo "   - linux/amd64 (Intel/AMD 64-bit)"
+echo "   - linux/arm64 (ARM 64-bit)"
+echo "   - linux/arm/v7 (ARM 32-bit, Raspberry Pi)"
+echo ""
+echo "🚀 Deploy on any architecture using:"
+echo "   docker run -d -p 5005:5005 -v flame_data:/app/data --name flame $REGISTRY_NAME/$IMAGE_NAME:$TAG"
+echo ""
+echo "🌐 Access your Flame instance at: http://localhost:5005"
+echo "📊 Import/Export available at: http://localhost:5005/settings/data"

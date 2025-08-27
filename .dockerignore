@@ -4,3 +4,13 @@ public
 k8s
 skaffold.yaml
 data
+.git
+.gitignore
+*.md
+test-import-export.js
+.dev
+*.log
+.npm
+.vscode
+.DS_Store
+Thumbs.db
