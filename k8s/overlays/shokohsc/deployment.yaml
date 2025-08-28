@@ -2,22 +2,22 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: flame
+  name: dragons-flame
 spec:
   selector:
     matchLabels:
-      app: flame
+      app: dragons-flame
   template:
     metadata:
       labels:
-        app: flame
+        app: dragons-flame
     spec:
-      serviceAccountName: flame-dev
+      serviceAccountName: dragons-flame-dev
       securityContext:
         fsGroup: 1000
       containers:
-        - name: flame
-          image: shokohsc/flame
+        - name: dragons-flame
+          image: kwslavens74/dragons-flame
           command:
             - npm
           args:

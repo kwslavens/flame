@@ -1,3 +1,28 @@
+## Dragons Flame Fork
+
+> **Note**: Dragons Flame is a fork of the original [Flame](https://github.com/pawelmalak/flame) project by Pawel Malak and contributors. We extend our gratitude to all the original contributors who made this project possible.
+
+### v2.4.0 (2024-08-28)
+- **FORK**: Initial fork from pawelmalak/flame v2.3.1 - Dragons Flame is born! 🐉
+- **NEW FEATURE**: Added comprehensive Import/Export functionality for complete data management
+  - Import bookmarks and categories from HTML files (browser exports)
+  - Import bookmarks and categories from JSON format
+  - Export all Dragons Flame data (apps, bookmarks, categories, settings) to JSON
+  - Bulk import operations with validation and error handling
+  - Backup and restore capabilities for disaster recovery
+  - Migration tool for moving between Dragons Flame instances
+- **REBRANDING**: Updated all references from "flame" to "dragons-flame" 
+- **DOCKER**: Updated Docker images to use kwslavens74/dragons-flame
+- **KUBERNETES**: Updated all Kubernetes manifests for dragons-flame deployment
+- **DOCUMENTATION**: Updated README and documentation to reflect fork status while preserving original contributor credits
+- **BUILD SCRIPTS**: Enhanced build scripts with proper versioning and multi-architecture support
+
+---
+
+## Original Flame Changelog
+
+The following changelog entries are from the original Flame project by Pawel Malak and contributors.
+
 ### v2.3.1 (2023-07-23)
 - Fixed bug where "Open search results in the same tab" setting was not respected if "Local search" was set as primary search provider ([#270](https://github.com/pawelmalak/flame/issues/270))
 - Fixed bug where search bar had rounded input field on iOS ([#394](https://github.com/pawelmalak/flame/issues/394))

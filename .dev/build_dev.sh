@@ -1,1 +1,1 @@
-docker build -t flame:dev -f .docker/Dockerfile .
+docker build -t dragons-flame:dev -f .docker/Dockerfile .

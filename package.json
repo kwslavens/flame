@@ -1,7 +1,7 @@
 {
-  "name": "flame",
-  "version": "2.3.1-import-export",
-  "description": "Self-hosted start page",
+  "name": "dragons-flame",
+  "version": "2.4.0",
+  "description": "Self-hosted start page - Dragons Flame Fork",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",

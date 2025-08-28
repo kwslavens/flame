@@ -1,23 +1,23 @@
 version: '3.6'
 
 services:
-  flame:
+  dragons-flame:
     build: .
-    container_name: flame-import-export
+    container_name: dragons-flame
     volumes:
-      - flame_data:/app/data
+      - dragons_flame_data:/app/data
       # Uncomment the line below for Docker integration
       # - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "5005:5005"
     environment:
-      - PASSWORD=flame_password
+      - PASSWORD=dragons_flame_password
       - NODE_ENV=production
     restart: unless-stopped
     labels:
-      - "com.flame.version=2.3.1-import-export"
-      - "com.flame.features=import-export"
+      - "com.dragons-flame.version=2.4.0"
+      - "com.dragons-flame.features=import-export,data-management"
 
 volumes:
-  flame_data:
+  dragons_flame_data:
     driver: local

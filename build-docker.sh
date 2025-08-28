@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Build script for Flame with Import/Export functionality
+# Build script for Dragons Flame with Import/Export functionality
 # Usage: ./build-docker.sh [tag]
 
 set -e
 
 # Configuration
-IMAGE_NAME="flame-import-export"
+IMAGE_NAME="dragons-flame"
 REGISTRY_NAME="kwslavens74"  # Change this to your Docker Hub username
 VERSION=$(node -p "require('./package.json').version")
 TAG=${1:-$VERSION}
 
-echo "🔥 Building Flame with Import/Export functionality"
+echo "🔥 Building Dragons Flame with Import/Export and Data Management functionality"
 echo "📦 Version: $VERSION"
 echo "🏷️  Tag: $TAG"
 echo ""
@@ -61,7 +61,7 @@ echo "📦 Using Docker Compose (recommended):"
 echo "   docker-compose up -d"
 echo ""
 echo "🐳 Using Docker directly:"
-echo "   docker run -d -p 5005:5005 -v flame_data:/app/data --name flame $IMAGE_NAME:$TAG"
+echo "   docker run -d -p 5005:5005 -v dragons_flame_data:/app/data --name dragons-flame $IMAGE_NAME:$TAG"
 echo ""
-echo "🌐 Access your Flame instance at: http://localhost:5005"
-echo "📊 Import/Export available at: http://localhost:5005/settings/data"
+echo "🌐 Access your Dragons Flame instance at: http://localhost:5005"
+echo "📊 Import/Export and Data Management available at: http://localhost:5005/settings"

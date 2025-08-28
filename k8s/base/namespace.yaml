@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: flame
+  name: dragons-flame
   labels:
-    namespace: flame
+    namespace: dragons-flame
     goldilocks.fairwinds.com/enabled: "true"

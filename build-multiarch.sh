@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Multi-architecture build script for Flame with Import/Export functionality
+# Multi-architecture build script for Dragons Flame with Import/Export functionality
 # Builds for AMD64, ARM64, and ARMv7 (Raspberry Pi compatible)
 # Usage: ./build-multiarch.sh [tag]
 
 set -e
 
 # Configuration
-IMAGE_NAME="flame-import-export"
+IMAGE_NAME="dragons-flame"
 REGISTRY_NAME="kwslavens74"  # Change this to your Docker Hub username
 VERSION=$(node -p "require('./package.json').version")
 TAG=${1:-$VERSION}
 
-echo "🔥 Building Multi-Architecture Flame with Import/Export"
+echo "🔥 Building Multi-Architecture Dragons Flame with Import/Export and Data Management"
 echo "📦 Version: $VERSION"
 echo "🏷️  Tag: $TAG"
 echo "🏗️  Architectures: linux/amd64, linux/arm64, linux/arm/v7"
@@ -49,7 +49,7 @@ echo "   - linux/arm64 (ARM 64-bit)"
 echo "   - linux/arm/v7 (ARM 32-bit, Raspberry Pi)"
 echo ""
 echo "🚀 Deploy on any architecture using:"
-echo "   docker run -d -p 5005:5005 -v flame_data:/app/data --name flame $REGISTRY_NAME/$IMAGE_NAME:$TAG"
+echo "   docker run -d -p 5005:5005 -v dragons_flame_data:/app/data --name dragons-flame $REGISTRY_NAME/$IMAGE_NAME:$TAG"
 echo ""
-echo "🌐 Access your Flame instance at: http://localhost:5005"
-echo "📊 Import/Export available at: http://localhost:5005/settings/data"
+echo "🌐 Access your Dragons Flame instance at: http://localhost:5005"
+echo "📊 Import/Export and Data Management available at: http://localhost:5005/settings"
