@@ -4,6 +4,9 @@ import axios from 'axios';
 // UI Components
 import { Button, SettingsHeadline, InputGroup, Message } from '../../UI';
 
+// Utility
+import { applyAuth } from '../../../utility';
+
 interface ImportOptions {
   format: 'json' | 'html';
   clearExisting: boolean;
@@ -69,7 +72,8 @@ export const DataSettings = (): JSX.Element => {
 
     try {
       const response = await axios.get(`/api/export/${format}`, {
-        responseType: 'blob'
+        responseType: 'blob',
+        headers: applyAuth()
       });
 
       // Create download link
@@ -125,6 +129,8 @@ export const DataSettings = (): JSX.Element => {
           importBookmarks: importOptions.importBookmarks,
           importCategories: importOptions.importCategories,
         }
+      }, {
+        headers: applyAuth()
       });
 
       if (response.data.success) {
@@ -152,14 +158,14 @@ export const DataSettings = (): JSX.Element => {
       
       <div style={{ marginBottom: '20px' }}>
         <Button
-          onClick={() => handleExport('json')}
+          click={() => handleExport('json')}
           disabled={loading}
           style={{ marginRight: '10px' }}
         >
           Export as JSON (Complete Backup)
         </Button>
         <Button
-          onClick={() => handleExport('html')}
+          click={() => handleExport('html')}
           disabled={loading}
         >
           Export as HTML (Browser Compatible)
@@ -261,7 +267,7 @@ export const DataSettings = (): JSX.Element => {
       )}
 
       <Button
-        onClick={handleImport}
+        click={handleImport}
         disabled={loading || !importFile}
         style={{ marginTop: '20px' }}
       >
