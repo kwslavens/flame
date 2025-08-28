@@ -3,12 +3,14 @@ const App = require('../../models/App');
 const Bookmark = require('../../models/Bookmark');
 const Category = require('../../models/Category');
 const { sequelize } = require('../../db');
+const loadConfig = require('../../utils/loadConfig');
 
 // @desc      Import data from JSON or HTML
 // @route     POST /api/import
 // @access    Private
 const importData = asyncWrapper(async (req, res, next) => {
   const { format, data, options = {} } = req.body;
+  const { pinCategoriesByDefault: pinCategories } = await loadConfig();
   
   if (!['json', 'html'].includes(format)) {
     return res.status(400).json({
@@ -63,13 +65,15 @@ const importData = asyncWrapper(async (req, res, next) => {
         skipDuplicates,
         importApps,
         importBookmarks, 
-        importCategories
+        importCategories,
+        pinCategories
       });
     } else if (format === 'html') {
       await importFromHTML(data, importResult, transaction, {
         skipDuplicates,
         importBookmarks,
-        importCategories
+        importCategories,
+        pinCategories
       });
     }
 
@@ -91,7 +95,7 @@ const importData = asyncWrapper(async (req, res, next) => {
 });
 
 async function importFromJSON(data, result, transaction, options) {
-  const { skipDuplicates, importApps, importBookmarks, importCategories } = options;
+  const { skipDuplicates, importApps, importBookmarks, importCategories, pinCategories } = options;
   
   try {
     const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
@@ -110,7 +114,7 @@ async function importFromJSON(data, result, transaction, options) {
           } else {
             await Category.create({
               name: categoryData.name,
-              isPinned: categoryData.isPinned || false,
+              isPinned: categoryData.isPinned !== undefined ? categoryData.isPinned : pinCategories,
               orderId: categoryData.orderId,
               isPublic: categoryData.isPublic !== undefined ? categoryData.isPublic : 1
             }, { transaction });
@@ -198,7 +202,7 @@ async function importFromJSON(data, result, transaction, options) {
 }
 
 async function importFromHTML(data, result, transaction, options) {
-  const { skipDuplicates, importBookmarks, importCategories } = options;
+  const { skipDuplicates, importBookmarks, importCategories, pinCategories } = options;
   
   try {
     // Simple regex-based HTML parsing for bookmark structure
@@ -211,7 +215,7 @@ async function importFromHTML(data, result, transaction, options) {
       if (!existingDefault) {
         defaultCategory = await Category.create({
           name: 'Imported Bookmarks',
-          isPinned: false,
+          isPinned: pinCategories,
           isPublic: 1
         }, { transaction });
         result.imported.categories++;
@@ -246,7 +250,7 @@ async function importFromHTML(data, result, transaction, options) {
         } else {
           const newCategory = await Category.create({
             name: folderName,
-            isPinned: false,
+            isPinned: pinCategories,
             isPublic: 1
           }, { transaction });
           currentCategoryId = newCategory.id;
